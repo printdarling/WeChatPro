@@ -14,8 +14,8 @@ export default defineConfig({
     changeOrigin: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:8083',
-        changeOrigin: true,                    //�Ƿ����
+        target: 'http://localhost:8080',
+        changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
       '/sms': {

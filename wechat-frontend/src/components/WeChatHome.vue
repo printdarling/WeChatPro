@@ -47,6 +47,7 @@
 
 <script>
 import {ChatRound, Position, User, UserFilled, ZoomIn} from "@element-plus/icons-vue";
+import axios from "axios";
 
 export default {
   name: 'WeChatHome',
@@ -58,8 +59,35 @@ export default {
         { name: '好友2', lastMessage: '最新消息内容2...', lastTime: '11:30' },
         { name: '好友3', lastMessage: '最新消息内容3...', lastTime: '12:45' },
         // 可以根据需要添加更多模拟数据
-      ]
+      ],
+      isOnline: true,
     };
+  },
+  created() {
+    this.init();
+  },
+  methods:{
+    async init() {
+
+        this.username = sessionStorage.getItem("username")
+
+
+      //创建webSocket对象
+     let ws = new WebSocket("ws://localhost/chat");
+
+      //给ws绑定事件
+      ws.onopen = this.onopen;
+      //接收到服务端推送的消息后触发
+      ws.onmessage = this.onMessage;
+
+      ws.onclose = this.onClose;
+    },
+    onOpen() {
+      this.isOnline = true;
+    },
+    onClose() {
+      this.isOnline = false;
+    },
   }
 };
 </script>
